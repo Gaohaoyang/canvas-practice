@@ -20,7 +20,6 @@ const captureTouch = (element: HTMLElement) => {
     touch.y = null
   })
   element.addEventListener('touchmove', (e) => {
-    console.log('captureTouch touchmove')
     const { pageX, pageY } = e.touches[0]
     touch.x = pageX
     touch.y = pageY
@@ -28,6 +27,16 @@ const captureTouch = (element: HTMLElement) => {
   return touch
 }
 
-const captureMouse = () => {}
+const captureMouse = (element: HTMLElement) => {
+  const mouse = {
+    x: 0,
+    y: 0,
+  }
+  element.addEventListener('mousemove', (e) => {
+    mouse.x = e.pageX
+    mouse.y = e.pageY
+  })
+  return mouse
+}
 
 export { captureTouch, captureMouse }
