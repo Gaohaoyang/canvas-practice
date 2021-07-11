@@ -10,7 +10,7 @@ class Arrow {
   constructor() {
     this.x = 0
     this.y = 0
-    this.color = '#ffff00'
+    this.color = '#42A5F5'
     this.rotation = 0
   }
 
