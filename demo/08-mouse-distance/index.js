@@ -10,13 +10,13 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/07-distance/index.ts":
-/*!**********************************!*\
-  !*** ./src/07-distance/index.ts ***!
-  \**********************************/
+/***/ "./src/08-mouse-distance/index.ts":
+/*!****************************************!*\
+  !*** ./src/08-mouse-distance/index.ts ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _common_Ball__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/Ball */ \"./src/common/Ball.ts\");\n\nvar canvas = document.querySelector('#mainCanvas');\nvar distanceDom = document.querySelector('#distance');\n\nif (canvas) {\n  var context = canvas.getContext('2d');\n\n  if (context) {\n    var ball = new _common_Ball__WEBPACK_IMPORTED_MODULE_0__.default(5, '#AED581');\n    var ball2 = new _common_Ball__WEBPACK_IMPORTED_MODULE_0__.default(5, '#3949AB');\n    var pos1 = {\n      x: Math.random() * canvas.width,\n      y: Math.random() * canvas.height\n    };\n    var pos2 = {\n      x: Math.random() * canvas.width,\n      y: Math.random() * canvas.height\n    };\n    ball.x = pos1.x;\n    ball.y = pos1.y;\n    ball2.x = pos2.x;\n    ball2.y = pos2.y;\n\n    var drawFrame = function drawFrame() {\n      ball.draw(context);\n      ball2.draw(context);\n      var dx = ball.x - ball2.x;\n      var dy = ball.y - ball2.y;\n      var distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));\n\n      if (distanceDom) {\n        distanceDom.insertAdjacentHTML('beforeend', String(distance));\n      }\n    };\n\n    drawFrame();\n  }\n}\n\n//# sourceURL=webpack://canvas-practice/./src/07-distance/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _common_Ball__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/Ball */ \"./src/common/Ball.ts\");\n\nvar canvas = document.querySelector('#mainCanvas');\nvar distanceDom = document.querySelector('#distance');\n\nif (canvas) {\n  var context = canvas.getContext('2d');\n\n  if (context) {\n    var ball = new _common_Ball__WEBPACK_IMPORTED_MODULE_0__.default(5, '#AED581');\n    var ball2 = new _common_Ball__WEBPACK_IMPORTED_MODULE_0__.default(5, '#3949AB');\n    var pos1 = {\n      x: Math.random() * canvas.width,\n      y: Math.random() * canvas.height\n    };\n    var pos2 = {\n      x: Math.random() * canvas.width,\n      y: Math.random() * canvas.height\n    };\n    ball.x = pos1.x;\n    ball.y = pos1.y;\n    ball2.x = pos2.x;\n    ball2.y = pos2.y;\n\n    var drawFrame = function drawFrame() {\n      ball.draw(context);\n      ball2.draw(context);\n      var dx = ball.x - ball2.x;\n      var dy = ball.y - ball2.y;\n      var distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));\n\n      if (distanceDom) {\n        distanceDom.insertAdjacentHTML('beforeend', String(distance));\n      }\n    };\n\n    drawFrame();\n  }\n}\n\n//# sourceURL=webpack://canvas-practice/./src/08-mouse-distance/index.ts?");
 
 /***/ }),
 
@@ -90,7 +90,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/07-distance/index.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/08-mouse-distance/index.ts");
 /******/ 	
 /******/ })()
 ;
