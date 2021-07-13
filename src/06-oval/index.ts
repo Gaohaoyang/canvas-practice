@@ -3,8 +3,6 @@ import Ball from '../common/Ball'
 const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
 
 if (canvas) {
-  canvas.width = 800
-  canvas.height = 400
   const context = canvas.getContext('2d')
 
   if (context) {
