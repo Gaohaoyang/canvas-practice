@@ -10,3 +10,5 @@ if (canvas) {
     })
   }
 }
+
+export {}
