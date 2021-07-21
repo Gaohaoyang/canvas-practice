@@ -21,7 +21,7 @@
     "suppressImplicitAnyIndexErrors": false,
     "noUnusedLocals": false,
     "skipLibCheck": false,
-    "resolveJsonModule":true,
+    "resolveJsonModule": true,
     "paths": {
       "@/*": ["src/*"],
       "@c/*": ["src/common/*"]
