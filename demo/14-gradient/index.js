@@ -16,7 +16,7 @@
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\nvar canvas = document.querySelector('#mainCanvas');\n\nif (canvas) {\n  var ctx = canvas.getContext('2d');\n\n  if (ctx) {\n    ctx.beginPath();\n    ctx.rect(100, 100, 100, 100);\n  }\n}\n\n\n\n//# sourceURL=webpack://canvas-practice/./src/14-gradient/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\nvar canvas = document.querySelector('#mainCanvas');\n\nif (canvas) {\n  var ctx = canvas.getContext('2d');\n\n  if (ctx) {\n    ctx.beginPath();\n    var gradient = ctx.createLinearGradient(100, 100, 200, 200);\n    gradient.addColorStop(0, '#ff0000');\n    gradient.addColorStop(1, '#000000');\n    ctx.fillStyle = gradient;\n    ctx.fillRect(100, 100, 100, 100);\n    var gradient2 = ctx.createLinearGradient(200, 200, 300, 300);\n    gradient2.addColorStop(0, '#ff0000');\n    gradient2.addColorStop(0.6, '#008880');\n    gradient2.addColorStop(1, '#000000');\n    ctx.fillStyle = gradient2;\n    ctx.fillRect(200, 200, 100, 100);\n    var gradient3 = ctx.createRadialGradient(500, 200, 0, 500, 200, 100);\n    gradient3.addColorStop(0, '#000000');\n    gradient3.addColorStop(1, '#ff0000');\n    ctx.arc(500, 200, 100, 0, 2 * Math.PI);\n    ctx.fillStyle = gradient3;\n    ctx.fill();\n  }\n}\n\n\n\n//# sourceURL=webpack://canvas-practice/./src/14-gradient/index.ts?");
 
 /***/ })
 
