@@ -16,7 +16,7 @@
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\nvar canvas = document.querySelector('#mainCanvas');\n\nif (canvas) {\n  var ctx = canvas.getContext('2d');\n\n  if (ctx) {\n    var img = new Image();\n    img.src = 'https://gw.alicdn.com/imgextra/i2/O1CN01gR6ymq1dfV5RmYxYk_!!6000000003763-2-tps-658-411.png';\n    img.addEventListener('load', function () {\n      ctx.drawImage(img, 0, 0, 658, 329, 0, 0, canvas.width, canvas.height);\n      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);\n      var pixels = imageData.data;\n\n      for (var i = 0; i < pixels.length; i += 4) {\n        pixels[i + 1] = 0; // pixels[i] = 0\n        // pixels[i + 2] = 0\n        // pixels[i + 3] = 0\n      }\n\n      ctx.putImageData(imageData, 0, 0);\n    });\n  }\n}\n\n\n\n//# sourceURL=webpack://canvas-practice/./src/16-image-pixel/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\nvar canvas = document.querySelector('#mainCanvas');\n\nif (canvas) {\n  var ctx = canvas.getContext('2d');\n\n  if (ctx) {\n    var img = new Image();\n    img.src = '../assets/1.png';\n    img.addEventListener('load', function () {\n      ctx.drawImage(img, 0, 0, 658, 329, 0, 0, canvas.width, canvas.height);\n      var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);\n      var pixels = imageData.data;\n\n      for (var i = 0; i < pixels.length; i += 4) {\n        pixels[i + 1] = 0;\n      }\n\n      ctx.putImageData(imageData, 0, 0);\n    });\n  }\n}\n\n\n\n//# sourceURL=webpack://canvas-practice/./src/16-image-pixel/index.ts?");
 
 /***/ })
 

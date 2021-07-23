@@ -1,18 +1,20 @@
 const path = require('path')
 const glob = require('glob')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
-const generateHtmlPlugins = () => glob.sync('./src/**/index.html').map(
-  (item) => new HtmlWebpackPlugin({
-    template: item,
-    filename: `./${item.replace('/src', '').replace('./', '')}`,
-    inject: false,
-    templateParameters: {
-      ppp: 'hello',
-      path: `.${item.replace('/src', '').replace('.html', '.js')}`,
-    },
-  }),
-)
+const generateHtmlPlugins = () =>
+  glob.sync('./src/**/index.html').map(
+    (item) =>
+      new HtmlWebpackPlugin({
+        template: item,
+        filename: `./${item.replace('/src', '').replace('./', '')}`,
+        inject: false,
+        templateParameters: {
+          path: `.${item.replace('/src', '').replace('.html', '.js')}`,
+        },
+      })
+  )
 
 module.exports = {
   entry: glob.sync('./src/**/index.ts').reduce((acc, filePath) => {
@@ -43,7 +45,17 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx', 'mjs'],
   },
-  plugins: [...generateHtmlPlugins()],
+  plugins: [
+    ...generateHtmlPlugins(),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'src/assets/*',
+          to: 'assets/[name][ext]',
+        },
+      ],
+    }),
+  ],
   mode: 'development',
   devServer: {
     contentBase: './demo',
