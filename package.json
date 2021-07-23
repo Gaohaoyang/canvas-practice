@@ -38,5 +38,9 @@
     "webpack": "^5.39.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "@types/stats.js": "^0.17.0",
+    "stats.js": "^0.17.0"
   }
 }
