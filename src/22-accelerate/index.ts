@@ -11,8 +11,8 @@ const x0 = 60 // 初始位置
 const y0 = 20
 
 if (canvas) {
-  canvas.width = window.screen.width
-  canvas.height = window.screen.height
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
   const context = canvas.getContext('2d')
 
   const ball = new Ball(10, '#1E88E5')

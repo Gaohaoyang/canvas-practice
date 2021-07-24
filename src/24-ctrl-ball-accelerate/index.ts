@@ -16,10 +16,8 @@ if (canvas) {
   const context = canvas.getContext('2d')
 
   const ball = new Ball(10, '#1E88E5')
-  ball.x = x0
-  ball.y = y0
-  let vx = v0x
-  let vy = v0y
+  ball.x = canvas.width / 2
+  ball.y = canvas.height / 2
 
   if (context) {
     let then = 0
@@ -31,11 +29,6 @@ if (canvas) {
 
       context.clearRect(0, 0, canvas.width, canvas.height)
 
-      vx += ax * deltaTime
-      vy += ay * deltaTime
-
-      ball.x += vx * deltaTime
-      ball.y += vy * deltaTime
 
       // ball.x = v0x * timeInSeconds + (1 / 2) * ax * timeInSeconds ** 2 + x0
       // ball.y = v0y * timeInSeconds + (1 / 2) * ay * timeInSeconds ** 2 + y0
