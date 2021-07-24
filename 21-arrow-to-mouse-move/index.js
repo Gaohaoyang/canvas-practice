@@ -9,25 +9,25 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/21-accelerate-time/index.ts":
-/*!*****************************************!*\
-  !*** ./src/21-accelerate-time/index.ts ***!
-  \*****************************************/
+/***/ "./src/21-arrow-to-mouse-move/index.ts":
+/*!*********************************************!*\
+  !*** ./src/21-arrow-to-mouse-move/index.ts ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/stats */ \"./src/common/stats.ts\");\n/* harmony import */ var _common_Ball__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Ball */ \"./src/common/Ball.ts\");\n\n\nvar canvas = document.querySelector('#mainCanvas');\nvar v0x = 300; // x 方向初速度， 单位 像素/s\n\nvar v0y = 0; // x 方向初速度， 单位 像素/s\n\nvar ax = 0; // x 方向加速度， 单位 像素/s^2\n\nvar ay = 30; // y 方向加速度， 单位 像素/s^2\n\nvar x0 = 60; // 初始位置\n\nvar y0 = 20;\nvar vy = v0y;\n\nif (canvas) {\n  canvas.width = window.screen.width;\n  canvas.height = window.screen.height;\n  var context = canvas.getContext('2d');\n  var ball = new _common_Ball__WEBPACK_IMPORTED_MODULE_1__.default(10, '#1E88E5');\n\n  if (context) {\n    var then = 0;\n    ball.x = x0;\n    ball.y = y0;\n\n    var drawFrame = function drawFrame(time) {\n      _common_stats__WEBPACK_IMPORTED_MODULE_0__.default.begin();\n      var timeInSeconds = time / 1000; // 将毫秒转为秒单位\n\n      var deltaTimeInSeconds = timeInSeconds - then; // 每帧的间隔时间，单位s\n\n      then = timeInSeconds;\n      console.log(deltaTimeInSeconds); // context.clearRect(0, 0, canvas.width, canvas.height)\n\n      vy += ay * deltaTimeInSeconds;\n      ball.y += vy * deltaTimeInSeconds; // ball.x += v0x * deltaTimeInSeconds\n      // ball.y = v0y * timeInSeconds + (1 / 2) * ay * timeInSeconds ** timeInSeconds + y0\n\n      ball.draw(context);\n      _common_stats__WEBPACK_IMPORTED_MODULE_0__.default.end();\n      window.requestAnimationFrame(drawFrame);\n    };\n\n    drawFrame(0);\n  }\n}\n\n//# sourceURL=webpack://canvas-practice/./src/21-accelerate-time/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/stats */ \"./src/common/stats.ts\");\n/* harmony import */ var _common_Arrow__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Arrow */ \"./src/common/Arrow.ts\");\n/* harmony import */ var _common_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/utils */ \"./src/common/utils.ts\");\n\n\n\nvar canvas = document.querySelector('#mainCanvas');\nvar v = 100; // 速度 10 像素/s\n\nif (canvas) {\n  canvas.width = window.innerWidth;\n  canvas.height = window.innerHeight;\n  var context = canvas.getContext('2d');\n  var arrow = new _common_Arrow__WEBPACK_IMPORTED_MODULE_1__.default();\n  arrow.x = canvas.width / 2;\n  arrow.y = canvas.height / 2;\n  var mousePos = (0,_common_utils__WEBPACK_IMPORTED_MODULE_2__.captureMouse)(canvas);\n  var then = 0;\n\n  if (context) {\n    var drawFrame = function drawFrame(time) {\n      _common_stats__WEBPACK_IMPORTED_MODULE_0__.default.begin();\n      var timeInSeconds = time / 1000; // 将毫秒转为秒单位\n\n      var deltaTimeInSeconds = timeInSeconds - then; // 每帧的间隔时间，单位s\n\n      then = timeInSeconds;\n      context.clearRect(0, 0, canvas.width, canvas.height);\n      var dx = mousePos.x - arrow.x;\n      var dy = mousePos.y - arrow.y;\n      var angle = Math.atan2(dy, dx);\n      arrow.x += v * Math.cos(angle) * deltaTimeInSeconds;\n      arrow.y += v * Math.sin(angle) * deltaTimeInSeconds;\n      arrow.rotation = angle;\n      arrow.draw(context);\n      _common_stats__WEBPACK_IMPORTED_MODULE_0__.default.end();\n      window.requestAnimationFrame(drawFrame);\n    };\n\n    drawFrame(0);\n  }\n}\n\n//# sourceURL=webpack://canvas-practice/./src/21-arrow-to-mouse-move/index.ts?");
 
 /***/ }),
 
-/***/ "./src/common/Ball.ts":
-/*!****************************!*\
-  !*** ./src/common/Ball.ts ***!
-  \****************************/
+/***/ "./src/common/Arrow.ts":
+/*!*****************************!*\
+  !*** ./src/common/Arrow.ts ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar Ball = /*#__PURE__*/function () {\n  function Ball() {\n    var radius = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 40;\n    var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '#795548';\n\n    _classCallCheck(this, Ball);\n\n    this.radius = radius;\n    this.color = color;\n    this.x = 0;\n    this.y = 0;\n    this.lineWidth = 1;\n  }\n  /**\n   * draw\n   */\n\n\n  _createClass(Ball, [{\n    key: \"draw\",\n    value: function draw(context) {\n      context.save();\n      context.translate(this.x, this.y);\n      context.lineWidth = this.lineWidth;\n      context.fillStyle = this.color;\n      context.beginPath();\n      context.arc(0, 0, this.radius, 0, Math.PI * 2, true);\n      context.closePath();\n      context.fill();\n\n      if (this.lineWidth > 0) {\n        context.stroke();\n      }\n\n      context.restore();\n    }\n  }]);\n\n  return Ball;\n}();\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Ball);\n\n//# sourceURL=webpack://canvas-practice/./src/common/Ball.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar Arrow = /*#__PURE__*/function () {\n  function Arrow() {\n    _classCallCheck(this, Arrow);\n\n    this.x = 0;\n    this.y = 0;\n    this.color = '#42A5F5';\n    this.rotation = 0;\n  }\n\n  _createClass(Arrow, [{\n    key: \"draw\",\n    value: function draw(context) {\n      context.save();\n      context.translate(this.x, this.y);\n      context.rotate(this.rotation);\n      context.lineWidth = 2;\n      context.fillStyle = this.color;\n      context.beginPath();\n      context.moveTo(-50, -25);\n      context.lineTo(0, -25);\n      context.lineTo(0, -50);\n      context.lineTo(50, 0);\n      context.lineTo(0, 50);\n      context.lineTo(0, 25);\n      context.lineTo(-50, 25);\n      context.lineTo(-50, -25);\n      context.closePath();\n      context.fill();\n      context.stroke();\n      context.restore();\n    }\n  }]);\n\n  return Arrow;\n}();\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Arrow);\n\n//# sourceURL=webpack://canvas-practice/./src/common/Arrow.ts?");
 
 /***/ }),
 
@@ -39,6 +39,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var stats_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! stats.js */ \"./node_modules/_stats.js@0.17.0@stats.js/build/stats.min.js\");\n/* harmony import */ var stats_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(stats_js__WEBPACK_IMPORTED_MODULE_0__);\n\nvar stats = new (stats_js__WEBPACK_IMPORTED_MODULE_0___default())();\nstats.dom.style.left = 'auto';\nstats.dom.style.top = '10px';\nstats.dom.style.right = '10px';\ndocument.body.appendChild(stats.dom);\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (stats);\n\n//# sourceURL=webpack://canvas-practice/./src/common/stats.ts?");
+
+/***/ }),
+
+/***/ "./src/common/utils.ts":
+/*!*****************************!*\
+  !*** ./src/common/utils.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"captureTouch\": () => (/* binding */ captureTouch),\n/* harmony export */   \"captureMouse\": () => (/* binding */ captureMouse)\n/* harmony export */ });\nvar captureTouch = function captureTouch(element) {\n  console.log('captureTouch');\n  var touch = {\n    x: null,\n    y: null,\n    isTouch: false\n  };\n  element.addEventListener('touchstart', function () {\n    touch.isTouch = true;\n  });\n  element.addEventListener('touchend', function () {\n    touch.isTouch = false;\n    touch.x = null;\n    touch.y = null;\n  });\n  element.addEventListener('touchmove', function (e) {\n    var _e$touches$ = e.touches[0],\n        pageX = _e$touches$.pageX,\n        pageY = _e$touches$.pageY;\n    touch.x = pageX;\n    touch.y = pageY;\n  });\n  return touch;\n};\n\nvar captureMouse = function captureMouse(element) {\n  var mouse = {\n    x: 0,\n    y: 0,\n    event: null\n  };\n  var offsetLeft = element.offsetLeft,\n      offsetTop = element.offsetTop;\n  element.addEventListener('mousemove', function (e) {\n    var x;\n    var y;\n    x = e.pageX;\n    y = e.pageY;\n    x -= offsetLeft;\n    y -= offsetTop;\n    mouse.x = x;\n    mouse.y = y;\n    mouse.event = e;\n  });\n  return mouse;\n};\n\n\n\n//# sourceURL=webpack://canvas-practice/./src/common/utils.ts?");
 
 /***/ }),
 
@@ -124,7 +135,7 @@ eval("// stats.js - http://github.com/mrdoob/stats.js\n(function(f,e){ true?modu
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/21-accelerate-time/index.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/21-arrow-to-mouse-move/index.ts");
 /******/ 	
 /******/ })()
 ;
