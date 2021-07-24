@@ -7,6 +7,7 @@ const v0x = 0 // x 方向初速度， 单位 像素/s
 const v0y = 0 // x 方向初速度， 单位 像素/s
 let ax = 0 // x 方向加速度， 单位 像素/s^2
 let ay = 0 // y 方向加速度， 单位 像素/s^2
+const gravity = 50
 const x0 = window.innerWidth / 2 // 初始位置
 const y0 = window.innerHeight / 2
 
@@ -58,6 +59,7 @@ if (canvas) {
 
       vx += ax * deltaTime
       vy += ay * deltaTime
+      vy += gravity * deltaTime
 
       ball.x += vx * deltaTime
       ball.y += vy * deltaTime
