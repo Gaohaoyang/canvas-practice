@@ -75,6 +75,7 @@ if (canvas) {
       stats.end()
       window.requestAnimationFrame(drawFrame)
     }
+
     drawFrame(0)
   }
 }
