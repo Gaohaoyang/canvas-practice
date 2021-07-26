@@ -9,11 +9,17 @@ class Ball {
 
   lineWidth: number
 
+  vx: number
+
+  vy: number
+
   constructor(radius: number = 40, color: string = '#795548') {
     this.radius = radius
     this.color = color
     this.x = 0
     this.y = 0
+    this.vx = 0
+    this.vy = 0
     this.lineWidth = 1
   }
 
