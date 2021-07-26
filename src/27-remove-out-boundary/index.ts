@@ -64,6 +64,10 @@ if (canvas) {
       if (remainBallsNum !== balls.length) {
         remainBallsNum = balls.length
         console.log(`remain balls: ${remainBallsNum}`)
+        const showText = document.querySelector('#text')
+        if (showText) {
+          showText.innerHTML = `remain balls: ${remainBallsNum}`
+        }
       }
 
       stats.end()
