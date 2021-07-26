@@ -9,14 +9,14 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/22-accelerate/index.ts":
-/*!************************************!*\
-  !*** ./src/22-accelerate/index.ts ***!
-  \************************************/
+/***/ "./src/27-remove-out-boundary/index.ts":
+/*!*********************************************!*\
+  !*** ./src/27-remove-out-boundary/index.ts ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/stats */ \"./src/common/stats.ts\");\n/* harmony import */ var _common_Ball__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Ball */ \"./src/common/Ball.ts\");\n\n\nvar canvas = document.querySelector('#mainCanvas');\nvar v0x = 60; // x 方向初速度， 单位 像素/s\n\nvar v0y = 0; // x 方向初速度， 单位 像素/s\n\nvar ax = 0; // x 方向加速度， 单位 像素/s^2\n\nvar ay = 600; // y 方向加速度， 单位 像素/s^2\n\nvar x0 = 60; // 初始位置\n\nvar y0 = 20;\n\nif (canvas) {\n  canvas.width = window.innerWidth;\n  canvas.height = window.innerHeight;\n  var context = canvas.getContext('2d');\n  var ball = new _common_Ball__WEBPACK_IMPORTED_MODULE_1__.default(10, '#1E88E5');\n\n  if (context) {\n    var drawFrame = function drawFrame(time) {\n      _common_stats__WEBPACK_IMPORTED_MODULE_0__.default.begin();\n      var timeInSeconds = time / 1000; // 将毫秒转为秒单位\n\n      context.clearRect(0, 0, canvas.width, canvas.height);\n      ball.x = v0x * timeInSeconds + 1 / 2 * ax * Math.pow(timeInSeconds, 2) + x0;\n      ball.y = v0y * timeInSeconds + 1 / 2 * ay * Math.pow(timeInSeconds, 2) + y0;\n      ball.draw(context);\n      _common_stats__WEBPACK_IMPORTED_MODULE_0__.default.end();\n      window.requestAnimationFrame(drawFrame);\n    };\n\n    drawFrame(0);\n  }\n}\n\n//# sourceURL=webpack://canvas-practice/./src/22-accelerate/index.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _common_stats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/stats */ \"./src/common/stats.ts\");\n/* harmony import */ var _common_Ball__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Ball */ \"./src/common/Ball.ts\");\n/* eslint-disable no-param-reassign */\n\n\nvar canvas = document.querySelector('#mainCanvas');\nvar ballNum = 100;\nvar maxSpeedX = 80;\nvar maxSpeedY = 80;\nvar colors = ['#81D4FA', '#64B5F6', '#42A5F5', '#2196F3', '#1E88E5', '#1976D2', '#1565C0', '#0D47A1'];\nvar balls = [];\nvar remainBallsNum = ballNum;\n\nif (canvas) {\n  canvas.width = window.innerWidth;\n  canvas.height = window.innerHeight;\n  var context = canvas.getContext('2d');\n\n  if (context) {\n    for (var i = 0; i < ballNum; i += 1) {\n      var ball = new _common_Ball__WEBPACK_IMPORTED_MODULE_1__.default(20, colors[i % colors.length]);\n      ball.x = Math.random() * canvas.width;\n      ball.y = Math.random() * canvas.height;\n      ball.vx = (Math.random() * 2 - 1) * maxSpeedX;\n      ball.vy = (Math.random() * 2 - 1) * maxSpeedY;\n      balls.push(ball);\n    }\n\n    var then = 0;\n\n    var drawFrame = function drawFrame(time) {\n      _common_stats__WEBPACK_IMPORTED_MODULE_0__.default.begin();\n      var timeInSeconds = time / 1000; // 将毫秒转为秒单位\n\n      var deltaTime = timeInSeconds - then;\n      then = timeInSeconds;\n      context.clearRect(0, 0, canvas.width, canvas.height);\n\n      for (var _i = balls.length - 1; _i > -1; _i -= 1) {\n        balls[_i].x += balls[_i].vx * deltaTime;\n        balls[_i].y += balls[_i].vy * deltaTime;\n\n        balls[_i].draw(context);\n\n        if (balls[_i].x - balls[_i].radius > canvas.width || balls[_i].x + balls[_i].radius < 0 || balls[_i].y - balls[_i].radius > canvas.height || balls[_i].y + balls[_i].radius < 0) {\n          balls.splice(_i, 1);\n        }\n      }\n\n      if (remainBallsNum !== balls.length) {\n        remainBallsNum = balls.length;\n        console.log(\"remain balls: \".concat(remainBallsNum));\n      }\n\n      _common_stats__WEBPACK_IMPORTED_MODULE_0__.default.end();\n      window.requestAnimationFrame(drawFrame);\n    };\n\n    drawFrame(0);\n  }\n}\n\n//# sourceURL=webpack://canvas-practice/./src/27-remove-out-boundary/index.ts?");
 
 /***/ }),
 
@@ -124,7 +124,7 @@ eval("// stats.js - http://github.com/mrdoob/stats.js\n(function(f,e){ true?modu
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/22-accelerate/index.ts");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/27-remove-out-boundary/index.ts");
 /******/ 	
 /******/ })()
 ;
