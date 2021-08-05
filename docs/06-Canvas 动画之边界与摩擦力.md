@@ -10,7 +10,7 @@
 我们处理判断物体越界呢？一般有以下 4 种方式
 
 - 移除物体
-- 重置会边界内
+- 重置在边界内
 - 出现在边界的另一个对称位置
 - 反弹会边界内
 
@@ -127,5 +127,120 @@ for (let i = balls.length - 1; i > -1; i -= 1) {
   ...
 }
 ```
+
+## 重置在边界内
+
+大致思路是，当物体移出边界时，我们会重新设定其位置。这样可以源源不断的提供运动物体，又不用担心 canvas 上的物体过多以至于影响浏览器速度，因为物体的数量是不变的。
+
+例如我们做一个飘雪的动画，当雪花落地后，再重置到画面顶部。
+
+```js
+/* eslint-disable no-param-reassign */
+import stats from '../common/stats'
+import Ball from '../common/Ball'
+
+const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+
+const ballNum = 100 // 元素数量
+const maxSpeedX = 20 // 最大水平初速度
+const maxSpeedY = 0 // 最大竖直初速度
+const gravity = 4 // 重力加速度 单位 像素/s^2
+
+const colors = [
+  '#81D4FA',
+  '#64B5F6',
+  '#42A5F5',
+  '#2196F3',
+  '#1E88E5',
+  '#1976D2',
+  '#1565C0',
+  '#0D47A1',
+]
+const balls: Ball[] = []
+
+if (canvas) {
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  const context = canvas.getContext('2d')
+
+  const initBall = (ball: Ball, firstInit = false) => {
+    ball.radius = Math.random() * 3 + 4
+    ball.x = Math.random() * canvas.width
+    ball.y = -Math.random() * canvas.height * (firstInit ? 2 : 1)
+    ball.vx = (Math.random() * 2 - 1) * maxSpeedX
+    ball.vy = Math.random() * maxSpeedY
+  }
+
+  if (context) {
+    for (let i = 0; i < ballNum; i += 1) {
+      const ball = new Ball(20, colors[i % colors.length])
+      ball.lineWidth = 0
+      initBall(ball, true)
+      balls.push(ball)
+    }
+
+    let then = 0
+    const drawFrame = (time: number) => {
+      stats.begin()
+      const timeInSeconds = time / 1000 // 将毫秒转为秒单位
+      const deltaTime = timeInSeconds - then
+      then = timeInSeconds
+
+      context.clearRect(0, 0, canvas.width, canvas.height)
+
+      for (let i = balls.length - 1; i > -1; i -= 1) {
+        balls[i].x += balls[i].vx * deltaTime
+        balls[i].vy += gravity * deltaTime
+        balls[i].y += balls[i].vy * deltaTime
+        balls[i].draw(context)
+
+        if (
+          balls[i].x - balls[i].radius > canvas.width
+          || balls[i].x + balls[i].radius < 0
+          || balls[i].y - balls[i].radius > canvas.height
+        ) {
+          initBall(balls[i])
+        }
+      }
+
+      stats.end()
+      window.requestAnimationFrame(drawFrame)
+    }
+    drawFrame(0)
+  }
+}
+```
+
+核心代码为
+
+```js
+if (
+  balls[i].x - balls[i].radius > canvas.width
+  || balls[i].x + balls[i].radius < 0
+  || balls[i].y - balls[i].radius > canvas.height
+) {
+  initBall(balls[i])
+}
+```
+
+超出边界后将其重置。
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01TxLCSH1ql4v785sbm_!!6000000005535-1-tps-291-509.gif)
+
+demo 链接 [https://gaohaoyang.github.io/canvas-practice/28-snow/index.html](https://gaohaoyang.github.io/canvas-practice/28-snow/index.html)
+
+源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/28-snow/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/28-snow/index.ts)
+
+上述代码稍微改造，便可做出类似喷泉的效果：
+
+![](https://gw.alicdn.com/imgextra/i4/O1CN01o5BXVh1GwgnMLfdn8_!!6000000000687-1-tps-291-509.gif)
+
+demo 链接 [https://gaohaoyang.github.io/canvas-practice/29-fountain/index.html](https://gaohaoyang.github.io/canvas-practice/29-fountain/index.html)
+
+源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/29-fountain/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/29-fountain/index.ts)
+
+## 出现在边界的另一个对称位置
+## 反弹会边界内
 
 # 摩擦力
