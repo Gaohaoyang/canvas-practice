@@ -241,6 +241,42 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/29-fountain/index.html
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/29-fountain/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/29-fountain/index.ts)
 
 ## 出现在边界的另一个对称位置
+
+当元素从屏幕左边移出，会在屏幕右侧出现；右侧移出，会在左侧出现；上下也类似。
+
+我们使用上一章《canvas 动画之速度与加速度》中的demo宇宙飞船，我们稍微修改一下代码，让其在移出画布时，在另一个对称位置出现。
+
+核心修改的代码如下：
+
+```js
+const top = 0
+const right = canvas.width
+const bottom = canvas.height
+const left = 0
+
+···
+
+if (ship.x - ship.width / 2 > right) {
+  ship.x = left - ship.width / 2
+} else if (ship.x + ship.width / 2 < left) {
+  ship.x = right + ship.width / 2
+}
+if (ship.y - ship.height / 2 > bottom) {
+  ship.y = top - ship.height / 2
+} else if (ship.y + ship.height / 2 < top) {
+  ship.y = bottom + ship.height / 2
+}
+```
+
+效果如下
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01oWFExA1YpVffhIui4_!!6000000003108-1-tps-503-301.gif)
+
+demo 链接 [https://gaohaoyang.github.io/canvas-practice/30-space-ship-boundary/index.html](https://gaohaoyang.github.io/canvas-practice/30-space-ship-boundary/index.html)
+
+源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/30-space-ship-boundary/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/30-space-ship-boundary/index.ts)
+
+
 ## 反弹会边界内
 
 # 摩擦力
