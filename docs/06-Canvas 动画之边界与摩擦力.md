@@ -12,7 +12,7 @@
 - 移除物体
 - 重置在边界内
 - 出现在边界的另一个对称位置
-- 反弹会边界内
+- 反弹回边界内
 
 我们先来从移除物体开始
 
@@ -20,7 +20,7 @@
 
 如果物体不断产生，那么将物体越界后移除是比较好的做法，也会使得性能更好。
 
-当多个物体在移动时，应该将他们的引用保存在一个数组中，再遍历整个数组来移动它们。可以使用 `splice()` 方法移除数组中的元素。接下来举个例子，在画布中随机位置放置100个小球，以不超过最大速度的随机的速度运动，越界后将小球移除。
+当多个物体在移动时，应该将他们的引用保存在一个数组中，再遍历整个数组来移动它们。可以使用 `splice()` 方法移除数组中的元素。接下来举个例子，在画布中随机位置放置 100 个小球，以不超过最大速度的随机的速度运动，越界后将小球移除。
 
 代码如下
 
@@ -79,10 +79,10 @@ if (canvas) {
         balls[i].draw(context)
 
         if (
-          balls[i].x - balls[i].radius > canvas.width
-          || balls[i].x + balls[i].radius < 0
-          || balls[i].y - balls[i].radius > canvas.height
-          || balls[i].y + balls[i].radius < 0
+          balls[i].x - balls[i].radius > canvas.width ||
+          balls[i].x + balls[i].radius < 0 ||
+          balls[i].y - balls[i].radius > canvas.height ||
+          balls[i].y + balls[i].radius < 0
         ) {
           balls.splice(i, 1)
         }
@@ -111,10 +111,10 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/27-remove-out-boundary
 
 ```js
 if (
-  balls[i].x - balls[i].radius > canvas.width
-  || balls[i].x + balls[i].radius < 0
-  || balls[i].y - balls[i].radius > canvas.height
-  || balls[i].y + balls[i].radius < 0
+  balls[i].x - balls[i].radius > canvas.width ||
+  balls[i].x + balls[i].radius < 0 ||
+  balls[i].y - balls[i].radius > canvas.height ||
+  balls[i].y + balls[i].radius < 0
 ) {
   balls.splice(i, 1)
 }
@@ -196,9 +196,9 @@ if (canvas) {
         balls[i].draw(context)
 
         if (
-          balls[i].x - balls[i].radius > canvas.width
-          || balls[i].x + balls[i].radius < 0
-          || balls[i].y - balls[i].radius > canvas.height
+          balls[i].x - balls[i].radius > canvas.width ||
+          balls[i].x + balls[i].radius < 0 ||
+          balls[i].y - balls[i].radius > canvas.height
         ) {
           initBall(balls[i])
         }
@@ -216,9 +216,9 @@ if (canvas) {
 
 ```js
 if (
-  balls[i].x - balls[i].radius > canvas.width
-  || balls[i].x + balls[i].radius < 0
-  || balls[i].y - balls[i].radius > canvas.height
+  balls[i].x - balls[i].radius > canvas.width ||
+  balls[i].x + balls[i].radius < 0 ||
+  balls[i].y - balls[i].radius > canvas.height
 ) {
   initBall(balls[i])
 }
@@ -244,7 +244,7 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/29-fountain/index.html
 
 当元素从屏幕左边移出，会在屏幕右侧出现；右侧移出，会在左侧出现；上下也类似。
 
-我们使用上一章《canvas 动画之速度与加速度》中的demo宇宙飞船，我们稍微修改一下代码，让其在移出画布时，在另一个对称位置出现。
+我们使用上一章《canvas 动画之速度与加速度》中的 demo 宇宙飞船，我们稍微修改一下代码，让其在移出画布时，在另一个对称位置出现。
 
 核心修改的代码如下：
 
@@ -276,7 +276,105 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/30-space-ship-boundary
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/30-space-ship-boundary/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/30-space-ship-boundary/index.ts)
 
+## 反弹回边界内
 
-## 反弹会边界内
+反弹需要做的是当元素即将离开屏幕时，保持其位置不变只改变其速度方向。
+
+```js
+/* eslint-disable no-param-reassign */
+import stats from '../common/stats'
+import Ball from '../common/Ball'
+
+const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+
+const v0x = 120
+const v0y = -100
+const gravity = 500 // 重力加速度 单位 像素/s^2
+const bounce = -0.8 // 弹性系数
+
+if (canvas) {
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  const context = canvas.getContext('2d')
+  const ball = new Ball(20)
+  ball.x = canvas.width / 2
+  ball.y = canvas.height / 2
+  ball.vx = v0x
+  ball.vy = v0y
+  ball.lineWidth = 0
+
+  if (context) {
+    let then = 0
+    const drawFrame = (time: number) => {
+      stats.begin()
+      const timeInSeconds = time / 1000 // 将毫秒转为秒单位
+      const deltaTime = timeInSeconds - then
+      then = timeInSeconds
+      context.clearRect(0, 0, canvas.width, canvas.height)
+
+      ball.x += ball.vx * deltaTime
+      ball.vy += gravity * deltaTime
+      ball.y += ball.vy * deltaTime
+
+      if (ball.y + ball.radius > canvas.height) {
+        ball.y = canvas.height - ball.radius
+        ball.vy *= bounce
+      }
+      if (ball.y - ball.radius < 0) {
+        ball.y = ball.radius
+        ball.vy *= bounce
+      }
+
+      if (ball.x + ball.radius > canvas.width) {
+        ball.x = canvas.width - ball.radius
+        ball.vx *= bounce
+      }
+      if (ball.x - ball.radius < 0) {
+        ball.x = ball.radius
+        ball.vx *= bounce
+      }
+
+      ball.draw(context)
+      stats.end()
+      window.requestAnimationFrame(drawFrame)
+    }
+    drawFrame(0)
+  }
+}
+```
+
+其核心代码为
+
+```js
+if (ball.y + ball.radius > canvas.height) {
+  ball.y = canvas.height - ball.radius
+  ball.vy *= bounce
+}
+if (ball.y - ball.radius < 0) {
+  ball.y = ball.radius
+  ball.vy *= bounce
+}
+if (ball.x + ball.radius > canvas.width) {
+  ball.x = canvas.width - ball.radius
+  ball.vx *= bounce
+}
+if (ball.x - ball.radius < 0) {
+  ball.x = ball.radius
+  ball.vx *= bounce
+}
+```
+
+注意我们还将回弹后的速度减小了一些，来模拟真实的弹性损耗。
+
+![](https://gw.alicdn.com/imgextra/i2/O1CN01opxfMg1cmzxclGomA_!!6000000003644-1-tps-503-296.gif)
+
+demo 链接 [https://gaohaoyang.github.io/canvas-practice/31-rebounce/index.html](https://gaohaoyang.github.io/canvas-practice/31-rebounce/index.html)
+
+源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/31-rebounce/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/31-rebounce/index.ts)
 
 # 摩擦力
+
+```
+
+```
