@@ -365,7 +365,7 @@ if (ball.x - ball.radius < 0) {
 }
 ```
 
-注意我们还将回弹后的速度减小了一些，来模拟真实的弹性损耗。
+注意我们还将回弹后的速度减小了一些，来模拟真实的弹性损耗（上述代码中的 `bounce` 变量）。
 
 ![](https://gw.alicdn.com/imgextra/i2/O1CN01opxfMg1cmzxclGomA_!!6000000003644-1-tps-503-296.gif)
 
@@ -375,6 +375,78 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/31-rebounce/index.html
 
 # 摩擦力
 
+目前我们实现的运动均为理想状态，忽略了现实世界中的摩擦力。也可以说是阻力、阻尼。现在我们考虑阻尼的情况。
+
+
+## 摩擦力的标准解法
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01xLivZd1X3ac4g7UcR_!!6000000002868-2-tps-414-254.png)
+
+如图，如果已知 vx 和 vy，我们需要先计算出其和速度 v，再进行不断地递减这个 v。我们不能分别再 x, y 轴上分别减小速度，因为可能会导致某个轴上速度为 0，而另一个轴上依然在运动的奇怪现象。
+
+```js
+/* eslint-disable no-param-reassign */
+import stats from '../common/stats'
+import Ball from '../common/Ball'
+
+const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+
+const v0x = (Math.random() * 2 - 1) * 100
+const v0y = (Math.random() * 2 - 1) * 200
+const frictionV = 1 // 摩擦力产生的减速速度
+
+if (canvas) {
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  const context = canvas.getContext('2d')
+  const ball = new Ball(20)
+  ball.x = canvas.width / 2
+  ball.y = canvas.height / 2
+  ball.lineWidth = 0
+  ball.vx = v0x
+  ball.vy = v0y
+
+  if (context) {
+    let then = 0
+    const drawFrame = (time: number) => {
+      stats.begin()
+      const timeInSeconds = time / 1000 // 将毫秒转为秒单位
+      const deltaTime = timeInSeconds - then
+      then = timeInSeconds
+      context.clearRect(0, 0, canvas.width, canvas.height)
+
+      let v = Math.sqrt(ball.vx ** 2 + ball.vy ** 2) // 计算合速度
+      const angle = Math.atan2(ball.vy, ball.vx) // 计算角度
+
+      if (v > frictionV) {
+        v -= frictionV // 速度递减
+      } else {
+        v = 0
+      }
+
+      ball.vx = v * Math.cos(angle) // 重新算出分速度
+      ball.vy = v * Math.sin(angle)
+      ball.x += ball.vx * deltaTime // 计算位移
+      ball.y += ball.vy * deltaTime
+
+      ball.draw(context)
+      stats.end()
+      window.requestAnimationFrame(drawFrame)
+    }
+    drawFrame(0)
+  }
+}
 ```
 
-```
+![](https://gw.alicdn.com/imgextra/i4/O1CN01hnanPO1eo25XvnGlB_!!6000000003917-1-tps-364-595.gif)
+
+demo 链接 [https://gaohaoyang.github.io/canvas-practice/32-friction/index.html](https://gaohaoyang.github.io/canvas-practice/32-friction/index.html)
+
+源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/32-friction/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/32-friction/index.ts)
+
+## 摩擦力的简便解法
+
+上述做法使用了勾股定理，和多个三角函数。其实摩擦力可以直接分别在 x, y 方向的速度乘一个小于 1 的系数进行模拟，一般用户也无法察觉有什么不妥。
+
+
