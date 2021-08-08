@@ -6,7 +6,7 @@ const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
 
 const v0x = (Math.random() * 2 - 1) * 100
 const v0y = (Math.random() * 2 - 1) * 200
-const frictionV = 1 // 摩擦力产生的减速速度
+const friction = 0.97 // 摩擦力系数
 
 if (canvas) {
   canvas.width = window.innerWidth
@@ -29,19 +29,10 @@ if (canvas) {
       then = timeInSeconds
       context.clearRect(0, 0, canvas.width, canvas.height)
 
-      let v = Math.sqrt(ball.vx ** 2 + ball.vy ** 2)
-      const angle = Math.atan2(ball.vy, ball.vx)
-
-      if (v > frictionV) {
-        v -= frictionV
-      } else {
-        v = 0
-      }
-
-      ball.vx = v * Math.cos(angle)
-      ball.vy = v * Math.sin(angle)
       ball.x += ball.vx * deltaTime
       ball.y += ball.vy * deltaTime
+      ball.vx *= friction // 速度递减
+      ball.vy *= friction
 
       ball.draw(context)
       stats.end()

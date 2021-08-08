@@ -449,4 +449,77 @@ demo 链接 [https://gaohaoyang.github.io/canvas-practice/32-friction/index.html
 
 上述做法使用了勾股定理，和多个三角函数。其实摩擦力可以直接分别在 x, y 方向的速度乘一个小于 1 的系数进行模拟，一般用户也无法察觉有什么不妥。
 
+```js
+/* eslint-disable no-param-reassign */
+import stats from '../common/stats'
+import Ball from '../common/Ball'
 
+const canvas: HTMLCanvasElement | null = document.querySelector('#mainCanvas')
+
+const v0x = (Math.random() * 2 - 1) * 100
+const v0y = (Math.random() * 2 - 1) * 200
+const friction = 0.97 // 摩擦力系数
+
+if (canvas) {
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  const context = canvas.getContext('2d')
+  const ball = new Ball(20)
+  ball.x = canvas.width / 2
+  ball.y = canvas.height / 2
+  ball.lineWidth = 0
+  ball.vx = v0x
+  ball.vy = v0y
+
+  if (context) {
+    let then = 0
+    const drawFrame = (time: number) => {
+      stats.begin()
+      const timeInSeconds = time / 1000 // 将毫秒转为秒单位
+      const deltaTime = timeInSeconds - then
+      then = timeInSeconds
+      context.clearRect(0, 0, canvas.width, canvas.height)
+
+      ball.x += ball.vx * deltaTime
+      ball.y += ball.vy * deltaTime
+      ball.vx *= friction // 速度递减
+      ball.vy *= friction
+
+      ball.draw(context)
+      stats.end()
+      window.requestAnimationFrame(drawFrame)
+    }
+    drawFrame(0)
+  }
+}
+```
+
+![](https://gw.alicdn.com/imgextra/i3/O1CN01eUnrxz1ZEhS7Ms5FG_!!6000000003163-1-tps-364-595.gif)
+
+demo 链接 [https://gaohaoyang.github.io/canvas-practice/33-friction-easy/index.html](https://gaohaoyang.github.io/canvas-practice/33-friction-easy/index.html)
+
+源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/33-friction-easy/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/33-friction-easy/index.ts)
+
+## 宇宙飞船加点摩擦力
+
+我们在本章的宇宙飞船示例中增加一点摩擦力
+
+```js
+const friction = 0.996
+
+...
+
+vThrustShip *= friction
+
+```
+
+代码很简单，增加了摩擦力的速度衰减系数，再针对推进速度进行衰减。
+
+下过如下：
+
+![](https://gw.alicdn.com/imgextra/i1/O1CN01dqxaUK1GhZioH9OOy_!!6000000000654-1-tps-625-367.gif)
+
+demo 链接 [https://gaohaoyang.github.io/canvas-practice/34-space-ship-boundary-f/index.html](https://gaohaoyang.github.io/canvas-practice/34-space-ship-boundary-f/index.html)
+
+源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/34-space-ship-boundary-f/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/34-space-ship-boundary-f/index.ts)
