@@ -516,10 +516,14 @@ vThrustShip *= friction
 
 代码很简单，增加了摩擦力的速度衰减系数，再针对推进速度进行衰减。
 
-下过如下：
+效果如下：
 
 ![](https://gw.alicdn.com/imgextra/i1/O1CN01dqxaUK1GhZioH9OOy_!!6000000000654-1-tps-625-367.gif)
 
 demo 链接 [https://gaohaoyang.github.io/canvas-practice/34-space-ship-boundary-f/index.html](https://gaohaoyang.github.io/canvas-practice/34-space-ship-boundary-f/index.html)
 
 源码链接 [https://github.com/Gaohaoyang/canvas-practice/blob/main/src/34-space-ship-boundary-f/index.ts](https://github.com/Gaohaoyang/canvas-practice/blob/main/src/34-space-ship-boundary-f/index.ts)
+
+# 总结
+
+本章我们学习了物体碰撞边界时的操作，包括移除、重置、屏幕环绕、反弹这些情况。并且还学习掌握了摩擦力，使用这个简单的系数，可以使得运动更加逼真。
