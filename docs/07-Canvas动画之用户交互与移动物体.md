@@ -1,3 +1,14 @@
+本章将学习鼠标和触摸事件，如何处理拖拽、抛落和投掷。不过，先从基本的按下与释放说起。
+
+- 按下及释放物体
+- 拖拽物体
+- 投掷物体
+
+# 按下及释放物体
+
+首先我们研究一下如何判断鼠标移入一个物体，我们依然使用先前的 `Ball` 类，为其添加一个新的方法 `getBounds`，返回一个恰好容纳小球的矩形，也可以称之为边界。返回的对象包含 `x, y, width, height`，更新后的 Ball.js 如下
+
+```js
 class Ball {
   radius: number
 
@@ -55,3 +66,29 @@ class Ball {
 }
 
 export default Ball
+```
+
+再增加一个 utils 判断一个点是否在一个矩形区域，代码如下
+
+```js
+/**
+ * 是否包含在区域内
+ */
+const containPoint = (
+  rect: {
+    x: number
+    y: number
+    width: number
+    height: number
+  },
+  x: number,
+  y: number,
+) => x > rect.x && x < rect.x + rect.width && y > rect.y && y < rect.y + rect.height
+```
+
+
+
+# 拖拽物体
+
+# 投掷物体
+

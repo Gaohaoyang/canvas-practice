@@ -53,4 +53,18 @@ const captureMouse = (element: HTMLElement) => {
   return mouse
 }
 
-export { captureTouch, captureMouse }
+/**
+ * 是否包含在区域内
+ */
+const containPoint = (
+  rect: {
+    x: number
+    y: number
+    width: number
+    height: number
+  },
+  x: number,
+  y: number,
+) => x > rect.x && x < rect.x + rect.width && y > rect.y && y < rect.y + rect.height
+
+export { captureTouch, captureMouse, containPoint }
